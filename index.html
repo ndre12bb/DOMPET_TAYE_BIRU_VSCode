@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2359d5">
+  <meta name="description" content="DOMPET TAYE — catat pengeluaran, tambah saldo dan ekspor Excel di HP maupun laptop.">
+  <title>DOMPET TAYE | Catatan Keuangan</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Koleksi ikon lokal agar tidak memerlukan internet -->
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M16 12h5M5 5V4a2 2 0 0 1 2-2h11"/><circle cx="16" cy="12" r=".7" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-arrowup" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6M12 8v11"/></symbol>
+    <symbol id="i-arrowdown" viewBox="0 0 24 24"><path d="m6 10 6 6 6-6M12 5v11"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM9 21v-8h6v8"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 1 0 2.4l-2 2a1.7 1.7 0 0 1-2.4 0l-.4-.4a8 8 0 0 1-5.2 0l-.4.4a1.7 1.7 0 0 1-2.4 0l-2-2a1.7 1.7 0 0 1 0-2.4l.4-.4a8 8 0 0 1 0-5.2l-.4-.4a1.7 1.7 0 0 1 0-2.4l2-2a1.7 1.7 0 0 1 2.4 0l.4.4a8 8 0 0 1 5.2 0l.4-.4a1.7 1.7 0 0 1 2.4 0l2 2a1.7 1.7 0 0 1 0 2.4l-.4.4a8 8 0 0 1 0 5.2z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 18v3h16v-3"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5m5 5H3m8-9h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-8"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 20 4.6-1 10-10a2 2 0 0 0-3-3l-10 10L4 20zm9.7-11.7 3 3M4 20h16"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  </svg>
+
+  <!-- Tampilan login -->
+  <section id="loginScreen" class="login-screen" aria-labelledby="loginTitle">
+    <div class="login-visual" aria-hidden="true">
+      <div class="brand-symbol brand-symbol-big"><svg class="icon"><use href="#i-wallet"/></svg></div>
+      <div class="login-art-card"><span>UANGMU, LEBIH TERATUR</span><strong>Rp •••.•••</strong><div class="art-dots"><b></b><b></b><b></b><b></b><b></b><b></b></div></div>
+    </div>
+    <div class="login-panel">
+      <div class="brand-row"><div class="brand-symbol"><svg class="icon"><use href="#i-wallet"/></svg></div><strong>DOMPET TAYE</strong></div>
+      <span class="eyebrow">CATAT UANG JADI MUDAH</span>
+      <h1 id="loginTitle">Halo, selamat<br>datang kembali 👋</h1>
+      <p class="muted login-intro">Masuk untuk mengatur pengeluaran dan saldo harianmu.</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="taye123" required spellcheck="false" autocapitalize="none" autocomplete="username">
+        <label for="password">Password</label>
+        <div class="password-wrap"><input type="password" id="password" name="password" placeholder="Masukkan password" required autocomplete="current-password"><button type="button" class="password-toggle" id="togglePassword" aria-label="Tampilkan password"><svg class="icon"><use href="#i-eye"/></svg></button></div>
+        <p id="loginError" class="form-error" role="alert" hidden></p>
+        <button class="btn btn-primary btn-block login-submit" type="submit">Masuk ke Dompet Taye <svg class="icon"><use href="#i-chevron"/></svg></button>
+      </form>
+      <p class="fine-print">Aplikasi lokal. Data disimpan di browser perangkatmu, bukan disinkronkan ke internet.</p>
+    </div>
+  </section>
+
+  <!-- Aplikasi setelah masuk -->
+  <div id="appShell" class="app-shell" hidden>
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand-row"><div class="brand-symbol"><svg class="icon"><use href="#i-wallet"/></svg></div><div class="brand-copy"><strong>DOMPET TAYE</strong><small>Uang rapi, hati tenang.</small></div></div>
+        <nav class="desktop-nav" aria-label="Navigasi desktop">
+          <button type="button" class="nav-item active" data-page="home">Beranda</button>
+          <button type="button" class="nav-item" data-page="history">Riwayat</button>
+          <button type="button" class="nav-item" data-page="settings">Pengaturan</button>
+        </nav>
+        <div class="header-actions"><button id="headerExport" class="icon-button header-export" type="button" aria-label="Export Excel" title="Export Excel"><svg class="icon"><use href="#i-download"/></svg></button><button id="logoutBtn" class="icon-button" type="button" aria-label="Keluar" title="Keluar"><svg class="icon"><use href="#i-logout"/></svg></button></div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div id="storageWarning" class="warning-banner" role="status" hidden>Browser tidak mengizinkan penyimpanan permanen. Catatan masih bisa dibuat selama halaman terbuka, tetapi wajib ekspor cadangan sebelum keluar.</div>
+
+      <section id="page-home" class="page-section" aria-label="Beranda">
+        <div class="page-heading"><div><div class="eyebrow" id="helloDate"></div><h1>Halo, Taye <span aria-hidden="true">👋</span></h1><p class="muted">Yuk, pantau uangmu hari ini.</p></div><span class="today-pill"><svg class="icon"><use href="#i-calendar"/></svg> <span id="monthLabel"></span></span></div>
+
+        <div class="dashboard-grid">
+          <section class="balance-card" aria-label="Saldo tersedia"><div class="balance-decoration decor-one"></div><div class="balance-decoration decor-two"></div><div class="balance-top"><span>Saldo tersedia</span><svg class="icon"><use href="#i-wallet"/></svg></div><div class="balance-amount" id="balanceValue">Rp 0</div><p class="balance-helper">Saldo awal + uang masuk − pengeluaran</p><div class="balance-footer"><span class="dot-live"></span><span id="balanceStatus">Saldo terhitung otomatis</span></div></section>
+          <div class="overview-side"><div class="mini-stat"><div class="mini-stat-top"><span class="mini-icon green"><svg class="icon"><use href="#i-arrowdown"/></svg></span><span>Total uang masuk</span></div><strong class="income-text" id="incomeValue">Rp 0</strong><small>Sejak mulai mencatat</small></div><div class="mini-stat"><div class="mini-stat-top"><span class="mini-icon rose"><svg class="icon"><use href="#i-arrowup"/></svg></span><span>Total pengeluaran</span></div><strong id="expenseValue">Rp 0</strong><small>Sejak mulai mencatat</small></div></div>
+        </div>
+
+        <section class="quick-actions" aria-label="Transaksi baru"><div class="section-title"><h2>Aksi cepat</h2><span class="muted">Mulai catat uangmu</span></div><div class="action-grid"><button class="action-tile expense-tile" type="button" data-open="expense"><span class="action-icon"><svg class="icon"><use href="#i-minus"/></svg></span><span><strong>Pengeluaran</strong><small>Catat uang keluar</small></span><svg class="icon action-chevron"><use href="#i-chevron"/></svg></button><button class="action-tile income-tile" type="button" data-open="income"><span class="action-icon"><svg class="icon"><use href="#i-plus"/></svg></span><span><strong>Tambah saldo</strong><small>Langsung tercatat</small></span><svg class="icon action-chevron"><use href="#i-chevron"/></svg></button></div></section>
+
+        <section class="latest-section"><div class="section-title"><div><h2>Transaksi terbaru</h2><p class="muted section-sub">Pemasukan dan pengeluaran terakhir</p></div><button class="text-link" type="button" data-page="history">Lihat semua <svg class="icon"><use href="#i-chevron"/></svg></button></div><div id="latestList" class="transaction-list" aria-live="polite"></div></section>
+      </section>
+
+      <section id="page-history" class="page-section" aria-label="Riwayat transaksi" hidden>
+        <div class="page-heading"><div><div class="eyebrow">CATATAN DOMPETMU</div><h1>Riwayat transaksi</h1><p class="muted">Semua uang masuk dan keluar ada di sini.</p></div><button id="historyExport" class="btn btn-light export-inline" type="button"><svg class="icon"><use href="#i-download"/></svg> Excel</button></div>
+        <div class="history-panel"><div class="filter-block"><label class="search-box" for="searchInput"><svg class="icon"><use href="#i-search"/></svg><input id="searchInput" type="search" placeholder="Cari keterangan..." aria-label="Cari transaksi"></label><select id="periodFilter" class="filter-select" aria-label="Periode transaksi"><option value="all">Semua waktu</option><option value="month">Bulan ini</option></select></div><div class="segmented" role="group" aria-label="Jenis transaksi"><button class="segment active" type="button" data-kind="all">Semua</button><button class="segment" type="button" data-kind="income">Uang masuk</button><button class="segment" type="button" data-kind="expense">Pengeluaran</button></div><div class="history-count" id="historyCount">0 transaksi</div><div id="historyList" class="transaction-list" aria-live="polite"></div></div>
+      </section>
+
+      <section id="page-settings" class="page-section" aria-label="Pengaturan" hidden>
+        <div class="page-heading"><div><div class="eyebrow">ATUR DOMPETMU</div><h1>Pengaturan</h1><p class="muted">Kelola saldo awal dan cadangan catatan.</p></div></div>
+        <div class="settings-grid"><section class="setting-panel"><h2>Saldo awal</h2><p class="muted">Isi uang yang kamu miliki sebelum mulai mencatat. Untuk uang baru setelahnya, gunakan <b>Tambah saldo</b> agar muncul di riwayat.</p><form id="openingForm"><label for="openingInput">Saldo awal (Rp)</label><input id="openingInput" type="number" min="0" max="9007199254740991" step="1" inputmode="numeric" placeholder="Contoh: 1000000" required><button class="btn btn-primary" type="submit">Simpan saldo awal</button></form></section><section class="setting-panel"><h2>Cadangkan data</h2><p class="muted">Unduh catatan ke Excel untuk laporan, atau gunakan backup JSON jika ingin memindahkan catatan ke browser/perangkat lain.</p><div class="backup-actions"><button id="settingsExcel" class="btn btn-primary btn-block" type="button"><svg class="icon"><use href="#i-download"/></svg> Export Excel (.xlsx)</button><button id="backupBtn" class="btn btn-light btn-block" type="button">Unduh backup (.json)</button><button id="restoreBtn" class="btn btn-light btn-block" type="button">Pulihkan backup (.json)</button><input id="restoreFile" type="file" accept="application/json,.json" hidden></div></section><section class="setting-panel full-span danger-panel"><h2>Hapus semua catatan</h2><p class="muted">Menghapus riwayat dan mengatur ulang saldo awal pada browser ini. Tindakan tidak bisa dibatalkan.</p><button id="resetBtn" class="btn btn-danger" type="button">Hapus semua data</button></section></div>
+        <p class="settings-note">Login `taye123` hanya untuk penggunaan lokal; ini bukan sistem autentikasi server dan tidak melindungi data layaknya akun online.</p>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigasi HP"><button type="button" class="bottom-nav-item active" data-page="home"><svg class="icon"><use href="#i-home"/></svg><span>Beranda</span></button><button type="button" class="bottom-nav-item" data-page="history"><svg class="icon"><use href="#i-list"/></svg><span>Riwayat</span></button><button type="button" class="bottom-nav-item" data-page="settings"><svg class="icon"><use href="#i-settings"/></svg><span>Pengaturan</span></button></nav>
+  </div>
+
+  <!-- Dialog tambah saldo: cukup nominal -->
+  <dialog id="incomeDialog" class="modal" aria-labelledby="incomeDialogTitle"><form id="incomeForm" class="modal-content"><div class="modal-top"><span class="modal-icon icon-green"><svg class="icon"><use href="#i-plus"/></svg></span><button type="button" class="modal-close" data-close="incomeDialog" aria-label="Tutup">×</button></div><h2 id="incomeDialogTitle">Tambah saldo</h2><p class="muted" id="incomeHelp">Cukup isi jumlah. Keterangan otomatis “Tambah saldo” dan tanggal hari ini.</p><div id="incomeDateBox" class="field" hidden><label for="incomeDate">Tanggal</label><input type="date" id="incomeDate"></div><div class="field"><label for="incomeAmount">Nominal saldo (Rp)</label><input type="number" id="incomeAmount" min="1" max="9007199254740991" step="1" inputmode="numeric" placeholder="Contoh: 200000" required></div><div class="balance-preview"><span>Saldo setelah ditambah</span><strong id="incomePreview">Rp 0</strong></div><button class="btn btn-primary btn-block" type="submit" id="incomeSubmit">Tambah saldo</button></form></dialog>
+
+  <!-- Dialog pengeluaran -->
+  <dialog id="expenseDialog" class="modal" aria-labelledby="expenseDialogTitle"><form id="expenseForm" class="modal-content"><div class="modal-top"><span class="modal-icon icon-rose"><svg class="icon"><use href="#i-minus"/></svg></span><button type="button" class="modal-close" data-close="expenseDialog" aria-label="Tutup">×</button></div><h2 id="expenseDialogTitle">Catat pengeluaran</h2><p class="muted">Pengeluaran langsung mengurangi saldo dan masuk ke riwayat.</p><div class="field"><label for="expenseDate">Tanggal</label><input type="date" id="expenseDate" required></div><div class="field"><label for="expenseDescription">Keterangan</label><input type="text" id="expenseDescription" placeholder="Contoh: Makan siang" maxlength="150" required></div><div class="field"><label for="expenseAmount">Jumlah pengeluaran (Rp)</label><input type="number" id="expenseAmount" min="1" max="9007199254740991" step="1" inputmode="numeric" placeholder="Contoh: 25000" required></div><div class="balance-preview"><span>Sisa saldo setelah transaksi</span><strong id="expensePreview">Rp 0</strong></div><button class="btn btn-primary btn-block" type="submit" id="expenseSubmit">Simpan pengeluaran</button></form></dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
